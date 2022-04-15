@@ -1,5 +1,6 @@
 import { createWebHistory, createRouter } from "vue-router";
-
+import { useUtil } from "../composables/util";
+const { setNotFound } = useUtil();
 const routes = [
   {
     path: "/:pathMatch(.*)*",
@@ -26,10 +27,6 @@ const router = createRouter({
 // todo
 const isAuth = false;
 const canAccess = async (to) => {
-  if (to.name === 'NotFound') {
-    return true;
-  }
-
   if (!isAuth && to.name !== 'Guest') {
     return false;
   }
@@ -38,6 +35,12 @@ const canAccess = async (to) => {
 }
 
 router.beforeEach(async (to, from) => {
+  if (to.name === 'NotFound') {
+    setNotFound(true);
+    return { name: 'NotFound' }
+  }
+
+  setNotFound(false);
   const access = await canAccess(to);
   if (!access) {
     return { name: 'Guest'}

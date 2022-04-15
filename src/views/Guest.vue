@@ -1,3 +1,8 @@
+<script setup lang="ts">
+
+</script>
+
+
 <template>
-  <v-alert>Test</v-alert>
+  <v-alert>Guest</v-alert>
 </template>
